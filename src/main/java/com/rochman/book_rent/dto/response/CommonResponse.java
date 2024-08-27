@@ -14,5 +14,6 @@ public class CommonResponse<T> {
     private Integer statusCode;
     private T data;
     private PagingResponse paging;
+//    private String errors;
 
 }

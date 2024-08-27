@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,4 +16,5 @@ public class BookResponse {
     private String bookCode;
     private String title;
     private Integer stock;
+    private Set<CategoryResponse> categories;
 }

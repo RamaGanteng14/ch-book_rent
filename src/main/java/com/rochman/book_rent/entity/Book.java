@@ -30,8 +30,8 @@ public class Book {
     @Column(name = "stock")
     private Integer stock;
 
-    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
-    private List<Book> books;
+    @OneToMany(mappedBy = "books", cascade = CascadeType.ALL)
+    private List<RentLog> rentLogs;
 
     @ManyToMany
     @JoinTable(

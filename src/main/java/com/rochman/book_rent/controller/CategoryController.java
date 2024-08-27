@@ -46,7 +46,7 @@ public class CategoryController {
     public ResponseEntity<CommonResponse<CategoryResponse>> getCategoryById(@PathVariable String id) {
         CategoryResponse categoryResponse = categoryService.getById(id);
         CommonResponse<CategoryResponse> response = CommonResponse.<CategoryResponse>builder()
-                .message("Category retrieved successfully")
+                .message("Category fetch successfully")
                 .statusCode(HttpStatus.OK.value())
                 .data(categoryResponse)
                 .build();
@@ -57,7 +57,7 @@ public class CategoryController {
     public ResponseEntity<CommonResponse<List<CategoryResponse>>> getAllCategories() {
         List<CategoryResponse> categories = categoryService.getAll();
         CommonResponse<List<CategoryResponse>> response = CommonResponse.<List<CategoryResponse>>builder()
-                .message("Categories retrieved successfully")
+                .message("Categories get all successfully")
                 .statusCode(HttpStatus.OK.value())
                 .data(categories)
                 .build();

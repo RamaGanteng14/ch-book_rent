@@ -64,7 +64,13 @@ public class CategoryServiceImpl implements CategoryService {
         categoryRepository.delete(category);
     }
 
-    private Category findCategoryById(String id) {
+    @Override
+    public Optional<Category> findById(String id) {
+        return categoryRepository.findById(id);
+    }
+
+
+    public Category findCategoryById(String id) {
         return categoryRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found"));
     }
