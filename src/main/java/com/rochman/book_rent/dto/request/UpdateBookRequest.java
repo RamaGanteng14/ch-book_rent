@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CategoryRequest {
-    private String name;
-
+public class UpdateBookRequest {
+    private String id;
+    private Integer stock;
+    private String title;
 }

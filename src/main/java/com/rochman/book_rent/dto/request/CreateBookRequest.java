@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BookRequest {
+public class CreateBookRequest {
     private Integer stock;
     private String title;
 }
