@@ -58,7 +58,8 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookResponse getById(String id) {
-        Book book = findByBookId(id);
+        Book book = bookRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "book not found"));
+        System.out.println("DD BUKU"+book);
         return toBookResponse(book);
     }
 

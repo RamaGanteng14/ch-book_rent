@@ -34,12 +34,11 @@ public class Book {
     private List<RentLog> rentLogs;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "book_category",
-            joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id")
-    )
+//    @JoinTable(
+//            name = "book_category",
+//            joinColumns = @JoinColumn(name = "book_id"),
+//            inverseJoinColumns = @JoinColumn(name = "category_id")
+//    )
     private Set<Category> categories = new HashSet<>();
-
 
 }
