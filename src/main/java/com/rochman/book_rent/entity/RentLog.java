@@ -25,8 +25,8 @@ public class RentLog {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "book_id", referencedColumnName = "id")
-    private Book books;
+    @JoinColumn(name = "book_id")
+    private Book book;
 
     @Column(name = "rent_date")
     @Temporal(TemporalType.DATE)

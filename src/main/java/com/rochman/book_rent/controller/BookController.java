@@ -69,8 +69,8 @@ public class BookController {
         bookService.delete(id);
         CommonResponse<Void> response = CommonResponse.<Void>builder()
                 .message("Book deleted successfully")
-                .statusCode(HttpStatus.NO_CONTENT.value())
+                .statusCode(HttpStatus.OK.value())
                 .build();
-        return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

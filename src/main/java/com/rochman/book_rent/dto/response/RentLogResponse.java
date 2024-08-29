@@ -13,8 +13,8 @@ import java.util.Date;
 @Builder
 public class RentLogResponse {
     private String id;
-    private String bookId;
-    private String userId;
+    private BookResponse book;
+    private UserResponse user;
     private Date rentDate;
     private Date returnDate;
     private Date actualReturnDate;

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RentLogRequest {
+public class CreateRentLogRequest {
     private String bookId;
     private String userId;
     

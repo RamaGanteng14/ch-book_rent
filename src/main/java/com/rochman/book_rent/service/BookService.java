@@ -10,6 +10,7 @@ public interface BookService {
     BookResponse create(CreateBookRequest createBookRequest);
     BookResponse update(UpdateBookRequest updateBookRequest);
     BookResponse getById(String id);
+    List<BookResponse> getByCategoryId();
     List<BookResponse> getAll();
     void delete(String id);
 }

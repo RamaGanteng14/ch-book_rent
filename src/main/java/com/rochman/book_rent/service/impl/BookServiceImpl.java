@@ -42,46 +42,35 @@ public class BookServiceImpl implements BookService {
         Book book = bookRepository.findById(updateBookRequest.getId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Book not found"));
 
-        book.setTitle(updateBookRequest.getTitle());
-        book.setStock(updateBookRequest.getStock());
-
-        Set<Category> existingCategories = book.getCategories();
-        Set<Category> newCategories = updateBookRequest.getCategoryIds().stream()
+        Set<Category> categories = updateBookRequest.getCategoryIds().stream()
                 .map(categoryId -> categoryService.findById(categoryId)
                         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found")))
                 .collect(Collectors.toSet());
 
-        // Find categories to add
-        Set<Category> categoriesToAdd = new HashSet<>(newCategories);
-        categoriesToAdd.removeAll(existingCategories);
+        book.setTitle(updateBookRequest.getTitle());
+        book.setStock(updateBookRequest.getStock());
+        book.setCategories(categories);
 
-        // Find categories to remove
-        Set<Category> categoriesToRemove = new HashSet<>(existingCategories);
-        categoriesToRemove.removeAll(newCategories);
-
-        // Remove old categories
-        book.getCategories().removeAll(categoriesToRemove);
-
-        // Add new categories
-        book.getCategories().addAll(categoriesToAdd);
-
-        bookRepository.saveAndFlush(book);
-        return mapToResponse(book);
+        Book updatedBook = bookRepository.saveAndFlush(book);
+        return toBookResponse(updatedBook);
     }
-
 
 
     @Override
     public BookResponse getById(String id) {
-        return bookRepository.findById(id)
-                .map(this::mapToResponse)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Book not found"));
+        Book book = findByBookId(id);
+        return toBookResponse(book);
+    }
+
+    @Override
+    public List<BookResponse> getByCategoryId() {
+        return List.of();
     }
 
     @Override
     public List<BookResponse> getAll() {
         return bookRepository.findAll().stream()
-                .map(this::mapToResponse)
+                .map(this::toBookResponse)
                 .collect(Collectors.toList());
     }
 
@@ -90,6 +79,11 @@ public class BookServiceImpl implements BookService {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Book not found"));
         bookRepository.delete(book);
+    }
+
+
+    public Book findByBookId(String id){
+        return bookRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "book not found"));
     }
 
     public BookResponse save(CreateBookRequest createBookRequest){
@@ -106,7 +100,7 @@ public class BookServiceImpl implements BookService {
         book.setBookCode(generateBookCode());
 
         Book savedBook = bookRepository.saveAndFlush(book);
-        return mapToResponse(savedBook);
+        return toBookResponse(savedBook);
     }
 
     private String generateBookCode() {
@@ -115,18 +109,20 @@ public class BookServiceImpl implements BookService {
         return "BK-" + currentYear + "-" + (count + 1);
     }
 
-    private BookResponse mapToResponse(Book book) {
+    private BookResponse toBookResponse(Book book) {
+       List<CategoryResponse> categoryResponses = book.getCategories().stream()
+               .map(category -> CategoryResponse.builder()
+                       .id(category.getId())
+                       .name(category.getName())
+                       .build()).toList();
+
         return BookResponse.builder()
                 .id(book.getId())
                 .bookCode(book.getBookCode())
                 .title(book.getTitle())
                 .stock(book.getStock())
-                .categories(book.getCategories().stream()
-                        .map(category -> CategoryResponse.builder()
-                                .id(category.getId())
-                                .name(category.getName())
-                                .build())
-                        .collect(Collectors.toSet()))
+                .categories(categoryResponses)
                 .build();
     }
+
 }
